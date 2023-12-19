@@ -4,6 +4,8 @@ import numpy as np
 import pytesseract
 from pytesseract import Output
 from matplotlib import pyplot as plt
+import requests
+from io import BytesIO
 
 pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
@@ -113,8 +115,8 @@ def predict(file):
     contents = {}
     global validation
     validation = [False] * len(elements)
-
-    src = cv2.imread(file)
+    tes = cv2.imread(file)
+    src = cv2.rotate(tes, cv2.ROTATE_90_COUNTERCLOCKWISE)
     image_processed = cv2.adaptiveThreshold(cv2.GaussianBlur(get_grayscale(src.copy()), (3,3), 0), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 9)
 
     custom_config = r'-l ind --oem 3 --psm 6'
